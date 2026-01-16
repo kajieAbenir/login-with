@@ -1,0 +1,323 @@
+/* (Variables and Base Styles remain the same as the previous version) */
+
+:root {
+  --bg: #fafafa;
+  --text: #111;
+  --btn-bg: #fff;
+  --btn-border: #ddd;
+  --btn-color: #111;    /* Change this from #fff to #111 */
+  --btn-hover: #f4f4f4;
+}
+
+body.dark {
+  --bg: #121212;
+  --text: #f1f1f1;
+  --btn-bg: #1e1e1e;    /* Added from previous fix */
+  --btn-border: #333;   /* Added from previous fix */
+  --btn-color: #f1f1f1; /* Change this from #000 to #f1f1f1 */
+  --btn-hover: #2a2a2a;
+}
+
+body.dark .login-btn::before {
+  filter: invert(1);
+}
+
+/* body.dark .icon-jollibee::before,
+body.dark .icon-mcdonalds::before,
+body.dark .icon-visa::before {
+  filter: none;
+} */
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 2rem;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark .exclude::before {
+    filter: none;
+}
+
+.header-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-grid {
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.login-btn {
+  position: relative;
+  padding: 0.85rem 1rem 0.85rem 3.5rem;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.login-btn:hover {
+  background: var(--btn-hover);
+  color: var(--btn-color);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.login-btn::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 27px;
+  height: 27px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* =====================================================
+   ICON MAPPING
+===================================================== */
+
+/* Social / Platforms */
+.icon-google::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/google.svg");
+}
+
+.icon-facebook::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/facebook.svg");
+}
+
+.icon-x::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/x.svg");
+}
+
+.icon-github::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/github.svg");
+}
+
+.icon-linkedin::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/linkedin.svg");
+}
+
+.icon-spotify::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/spotify.svg");
+}
+
+.icon-applemusic::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/applemusic.svg");
+}
+
+.icon-onlyfans::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/onlyfans.svg");
+}
+
+.icon-phub::before {
+    top: 78%;
+    left: 4%;
+    width: 40px;
+    height: 40px;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Pornhub-logo.svg/1280px-Pornhub-logo.svg.png");
+}
+
+/* Brands / Misc */
+.icon-jollibee::before {
+    background-image: url("https://companieslogo.com/img/orig/JBFCF-f8098eac.png?t=1720244492");
+}
+
+.icon-settings::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/framework.svg");
+}
+
+.icon-fingerprint::before {
+    background-image: url("https://uxwing.com/wp-content/themes/uxwing/download/signs-and-symbols/finger-print-icon.png");
+}
+
+.icon-pdf::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adobe.svg");
+}
+
+/* Payments */
+.icon-paypal::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/paypal.svg");
+}
+
+.icon-visa::before {
+    top: 80%;
+    left: 4%;
+    width: 35px;
+    height: 35px;
+    background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/960px-Visa_2021.svg.png");
+}
+
+/* Identity / Info */
+.icon-id::before {
+    background-image: url("https://uxwing.com/wp-content/themes/uxwing/download/communication-chat-call/id-card-color-icon.png");
+}
+
+.icon-age::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/adblock.svg");
+}
+
+/* =====================================================
+   FOOD ICONS
+===================================================== */
+
+.icon-mcdonalds::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/mcdonalds.svg");
+}
+
+.icon-tacobell::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tacobell.svg");
+}
+
+.icon-burgerking::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/burgerking.svg");
+}
+
+.icon-starbucks::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/starbucks.svg");
+}
+
+.icon-kfc::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/kfc.svg");
+}
+
+.icon-subway::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/subway.svg");
+}
+
+.icon-ikea::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/ikea.svg");
+}
+
+/* =====================================================
+   TECH JOKE ICONS
+===================================================== */
+
+.icon-duolingo::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/duolingo.svg");
+}
+
+.icon-winrar::before {
+    background-image: url("https://cdn.freebiesupply.com/logos/large/2x/winrar-1-logo-png-transparent.png");
+}
+
+.icon-wikipedia::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/wikipedia.svg");
+}
+
+.icon-internetexplorer::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/internetexplorer.svg");
+}
+
+/* =====================================================
+   ABSTRACT / JOKE ICONS
+===================================================== */
+
+.icon-conscience::before {
+    background-image: url("https://svgcollections.com/wp-content/uploads/2024/07/angel_wings_figure_6eIaG.png");
+}
+
+.icon-carrierpigeon::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/twitter.svg");
+}
+
+.icon-telepathy::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/bluetooth.svg");
+}
+
+.icon-chaos::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/discord.svg");
+}
+
+.icon-jackie::before {
+    background-image: url("https://www.creativefabrica.com/wp-content/uploads/2019/05/Karate-580x386.jpg");
+}
+
+/* =====================================================
+   SPECIAL CASES
+===================================================== */
+
+.icon-jnt::before {
+    top: 70%;
+    left: 2%;
+    width: 45px;
+    height: 45px;
+    background-image: url("https://i.pinimg.com/474x/29/4d/14/294d1488cebbfd40db530843c96dc68e.jpg");
+}
+
+/* =====================================================
+   FILIPINO DAILY LIFE ICONS
+===================================================== */
+
+.icon-barangay::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/homeassistant.svg");
+}
+
+.icon-philsys::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/government.svg");
+}
+
+.icon-nso::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/file.svg");
+}
+
+.icon-photocopy::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/printer.svg");
+}
+
+.icon-utang::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/handshake.svg");
+}
+
+/* =====================================================
+   FILIPINO INTERNET HUMOR ICONS
+===================================================== */
+
+.icon-load::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/signal.svg");
+}
+
+.icon-pisowifi::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/wifi.svg");
+}
+
+.icon-screenshot::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/camera.svg");
+}
+
+.icon-seen::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/eye.svg");
+}
+
+.icon-groupchat::before {
+    background-image: url("https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/whatsapp.svg");
+}
+
+/* TOGGLE THEME */
+
+.toggle-theme {
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: bold;
+}
