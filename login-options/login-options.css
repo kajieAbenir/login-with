@@ -1,0 +1,98 @@
+/* (Variables and Base Styles remain the same as the previous version) */
+
+:root {
+	--bg: #fafafa;
+	--text: #111;
+	--btn-bg: #fff;
+	--btn-border: #ddd;
+	--btn-color: #111;
+	--btn-hover: #f4f4f4;
+}
+
+body.dark {
+	--bg: #121212;
+	--text: #f1f1f1;
+	--btn-bg: #1e1e1e;
+	--btn-border: #333;
+	--btn-color: #f1f1f1;
+	--btn-hover: #2a2a2a;
+}
+
+
+body.dark .login-btn::before {
+  filter: invert(1);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 2rem;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark .exclude::before {
+  filter: none;
+}
+
+.header-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-grid {
+  max-width: 1000px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.login-btn {
+  position: relative;
+  padding: 0.85rem 1rem 0.85rem 3.5rem;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.login-btn:hover {
+  background: var(--btn-hover);
+  color: var(--btn-color);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.login-btn::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 27px;
+  height: 27px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* TOGGLE THEME */
+
+.toggle-theme {
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  border: 1px solid var(--btn-border);
+  background: var(--btn-bg);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: bold;
+}

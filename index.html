@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      background: #f0f2f5;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-container {
+      background: #ffffff;
+      width: 360px;
+      padding: 24px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .logo {
+      color: #1877f2;
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 14px;
+      margin: 8px 0;
+      border-radius: 6px;
+      border: 1px solid #dddfe2;
+      font-size: 15px;
+    }
+
+    .login-container input:focus {
+      outline: none;
+      border-color: #1877f2;
+    }
+
+    .login-btn {
+      width: 100%;
+      background: #1877f2;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+
+    .login-btn:hover {
+      background: #166fe5;
+    }
+
+    .forgot {
+      display: block;
+      margin-top: 16px;
+      font-size: 14px;
+      color: #1877f2;
+      text-decoration: none;
+    }
+
+    .divider {
+      margin: 20px 0;
+      height: 1px;
+      background: #dadde1;
+    }
+
+    .create-btn {
+      background: #42b72a;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .create-btn:hover {
+      background: #36a420;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <div class="logo">welcome back.</div>
+
+    <form>
+        <input type="email" placeholder="Email or phone number" />
+        <input type="password" placeholder="Password" />
+
+        <button class="login-btn" type="reset">Log In</button>
+    </form>
+    
+
+    <a href="#" class="forgot" onclick="window.location.href = 'login-options/login-options.html'">Sign In Options</a>
+    <a href="#" class="forgot">Forgotten password?</a>
+
+    <div class="divider"></div>
+
+    <button class="create-btn">Create new account</button>
+  </div>
+
+</body>
+</html>
