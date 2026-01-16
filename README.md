@@ -3,15 +3,16 @@
 ### *The ✨gold✨ standard of questionable authentication.*
 Developed by yours truly, **Brent Kyrjeh Abenir**...because I forgot my security questions to change my password.
 
-
-## 🏃‍♂️💨 Link to Page
-See the page in action [**here**](https://htmlpreview.github.io/?https://github.com/kajieAbenir/login-with-1-16-2026/blob/master/main.html)
-
-<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/2291bf4d-3677-4e56-9d88-541f676dbe0d" />
-
 ## 🤔 The Vision
 
 This mini project is a modern, high-fidelity recreation of the legendary "unhinged login options" meme. I took the idea of 2010s internet chaos and wrapped it in a sleek, professional UI that screams, "I have my life together, but my security protocols are quite a nightmare."
+
+## 🏃‍♂️💨 Link to Page
+See the page in action [**here**](https://htmlpreview.github.io/?https://github.com/kajieAbenir/login-with-1-16-2026/blob/master/index.html)
+
+*p.s. You will be greeted with a login page first. Click the <ins>Sign in Options</ins> text below the form.*
+
+<img width="1366" height="768" alt="image" src="https://github.com/user-attachments/assets/2291bf4d-3677-4e56-9d88-541f676dbe0d" />
 
 ### 💡 The Inspiration
 
@@ -26,7 +27,7 @@ Not much explanation needed. Please see the image below XD
 
 ## 🚀 Future Roadmap (Idea Lab)
 
-Currently I am out of ideas and mobile data, but, I'd like to make this a fully functional and humorous login options page in the future.
+Currently I am out of ideas and mobile data, but, I'd like to make this a fully functional and humorous login ~~options~~ page in the future.
 In the meantime, I only consider this for portfolio purposes, but who knows? We can implement great nonsense stuffs soon!
 
 * Improvements of UI/UX
