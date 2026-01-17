@@ -24,9 +24,5 @@ if (localStorage.getItem('theme') === 'dark') {
 
 // -------
 
-// This is for every login button existed (e.g Login with Malunggay Pandesal)
-Array.from(loginBtn).forEach((button) => {
-  button.addEventListener('click', () => {
-    alert('Redirecting...');
-  });
-})
+// We need a separate js for separate functions for different methods on resetting password lol
+// ARE WE DEADASS SERIOUS ON THIS TwT

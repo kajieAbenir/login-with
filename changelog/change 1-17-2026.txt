@@ -1,0 +1,6 @@
+changes 0.0.2
+- added NEW IDEAS!!
+- added initial page for Reset Password
+    - side note: we need backend for this one to keep integrity and avoid potential cheating
+    - I'm taking notes for ideas of resetting password.
+    - It'll much be more on ideas so stay tuned i guess.

@@ -1,0 +1,30 @@
+/* IMAGE SOURCE MAPPING */
+
+.icon-approval::before {
+    background-image: url("https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/blue-like-button-icon.png");
+}
+
+.icon-jnt::before {
+    top: 70%;
+    left: 2%;
+    width: 45px;
+    height: 45px;
+    background-image: url("https://i.pinimg.com/474x/29/4d/14/294d1488cebbfd40db530843c96dc68e.jpg");
+}
+
+.icon-spp::before {
+    top: 82%;
+    left: 2%;
+    width: 45px;
+    height: 45px;
+    background-image: url("https://shopeepay.ph/static/media/shopeepay-logo.5da722d172fa9105ef2e.png");
+}
+
+.icon-microwave::before {
+    top: 70%;
+    left: 2%;
+    width: 45px;
+    height: 45px;
+    background-image: url("https://static.vecteezy.com/system/resources/previews/017/784/939/non_2x/microwave-icon-on-transparent-background-free-png.png");
+}
+
