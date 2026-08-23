@@ -4,6 +4,7 @@ import Signup from './pages/Signup.vue'
 import LoginOptions from './pages/LoginOptions.vue'
 import ForgotPassword from './pages/ForgotPassword.vue'
 import Dashboard from './pages/Dashboard.vue'
+import JokeLogin from './pages/JokeLogin.vue'
 
 const routes = [
   {
@@ -30,6 +31,11 @@ const routes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard
+  },
+  {
+    path: '/trolled',
+    name: 'JokeLogin',
+    component: JokeLogin
   }
 ]
 

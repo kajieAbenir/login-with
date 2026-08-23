@@ -154,7 +154,7 @@ const formatAction = (type, option) => {
 .dashboard-wrapper {
   min-height: 100vh;
   background: #f0f2f5;
-  width: 100vw;
+  width: 100%;
   transition: background 0.3s;
 }
 

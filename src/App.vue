@@ -16,8 +16,17 @@ onMounted(() => {
 </script>
 
 <style>
-body {
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
   transition: background-color 0.3s, color 0.3s;
+  overflow-x: hidden;
 }
 </style>
