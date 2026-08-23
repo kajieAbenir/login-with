@@ -52,7 +52,78 @@
           </div>
           <div v-else-if="modalState === 'challenge'" class="challenge-state">
             <p class="challenge-prompt">{{ challenge.prompt }}</p>
-            <div v-if="challenge.type === 'google'" class="challenge-choices">
+            <form v-if="challenge.type === 'profile'" class="challenge-input profile-form" @submit.prevent="challenge.step = 2">
+              <template v-if="challenge.step === 1">
+                <input v-model="challenge.name" required placeholder="Full name">
+                <input v-model="challenge.headline" required placeholder="Professional headline">
+                <textarea v-model="challenge.summary" required rows="4" placeholder="A short professional summary"></textarea>
+                <button class="challenge-submit" type="submit">Preview resume</button>
+              </template>
+              <article v-else class="resume-preview">
+                <small>&lt;resume&gt;</small><h4>{{ challenge.name }}</h4><strong>{{ challenge.headline }}</strong><p>{{ challenge.summary }}</p><small>&lt;/resume&gt;</small>
+                <button class="challenge-submit" type="button" @click="submitChallenge('resume')">Submit resume</button>
+              </article>
+            </form>
+            <div v-else-if="challenge.type === 'targets'" class="target-board">
+              <button v-for="target in challenge.targets" :key="target.id" class="practice-target" type="button" :style="{ left: target.x + '%', top: target.y + '%' }" @click="hitPracticeTarget(target.id)">◎</button>
+              <span v-if="!challenge.targets.length">Practice complete</span>
+              <small>Targets: {{ challenge.score }}/5</small>
+            </div>
+            <div v-else-if="challenge.type === 'spotify'" class="challenge-input">
+              <p class="clue"><b>Clue {{ challenge.clue + 1 }}</b><br>{{ challenge.clues[challenge.clue] }}</p>
+              <input v-model="challenge.answer" placeholder="Song title">
+              <button v-if="challenge.clue < 2" class="challenge-submit" type="button" @click="challenge.clue++">Next clue</button>
+              <button v-else class="challenge-submit" type="button" @click="submitChallenge(challenge.answer)">Guess song</button>
+            </div>
+            <div v-else-if="challenge.type === 'album-order'" class="challenge-input">
+              <p>Tap an album to move it one place later.</p>
+              <button v-for="(album, index) in challenge.albums" :key="album.title" class="album-card" type="button" @click="moveAlbum(index)">{{ index + 1 }}. {{ album.title }} <small>{{ album.year }}</small></button>
+              <button class="challenge-submit" type="button" @click="submitChallenge(challenge.albums.map(album => album.title).join('|'))">Submit order</button>
+            </div>
+            <div v-else-if="challenge.type === 'checkout'" class="checkout">
+              <div class="checkout-total"><span>Demo checkout</span><b>₱{{ challenge.total }}</b></div>
+              <label v-for="method in challenge.methods" :key="method" class="payment-method"><input v-model="challenge.answer" type="radio" :value="method" name="payment"> {{ method }}</label>
+              <button class="challenge-submit" type="button" :disabled="!challenge.answer" @click="submitChallenge(challenge.answer)">Pay ₱{{ challenge.total }}</button>
+            </div>
+            <div v-else-if="challenge.type === 'cart'" class="challenge-input">
+              <div class="food-menu"><button v-for="item in challenge.menu" :key="item.name" type="button" :class="{ selected: challenge.cart.includes(item.name) }" @click="toggleCart(item.name)"><span>{{ item.name }}</span><small>₱{{ item.price }}</small></button></div>
+              <p class="cart-total">{{ challenge.cart.length }} item{{ challenge.cart.length === 1 ? '' : 's' }} · ₱{{ cartTotal }}</p>
+              <button class="challenge-submit" type="button" :disabled="!challenge.cart.length" @click="submitChallenge(challenge.cart)">Place order</button>
+            </div>
+            <div v-else-if="challenge.type === 'quiz'" class="challenge-input">
+              <small>Question {{ challenge.question + 1 }}/{{ challenge.questions.length }}</small>
+              <strong>{{ challenge.questions[challenge.question].prompt }}</strong>
+              <button v-for="answer in challenge.questions[challenge.question].answers" :key="answer" class="challenge-choice" type="button" @click="answerQuiz(answer)">{{ answer }}</button>
+            </div>
+            <div v-else-if="challenge.type === 'coffee'" class="challenge-input sliders">
+              <label>Milk <b>{{ challenge.milk }}%</b><input v-model.number="challenge.milk" type="range" min="0" max="100"></label>
+              <label>Ice <b>{{ challenge.ice }}</b><input v-model.number="challenge.ice" type="range" min="0" max="5"></label>
+              <label>Espresso shots <b>{{ challenge.shots }}</b><input v-model.number="challenge.shots" type="range" min="0" max="4"></label>
+              <button class="challenge-submit" type="button" @click="submitChallenge('coffee')">Make drink</button>
+            </div>
+            <div v-else-if="challenge.type === 'puzzle'" class="puzzle-grid">
+              <button v-for="piece in challenge.pieces" :key="piece" type="button" :class="{ placed: challenge.placed.includes(piece) }" @click="placePuzzlePiece(piece)">{{ challenge.placed.includes(piece) ? '✓' : piece }}</button>
+              <small>{{ challenge.placed.length }}/9 placed</small>
+            </div>
+            <div v-else-if="challenge.type === 'offices'" class="office-map">
+              <button v-for="office in challenge.offices" :key="office" type="button" :class="{ stamped: challenge.stamps.includes(office) }" @click="visitOffice(office)">{{ office }} <span v-if="challenge.stamps.includes(office)">✓</span></button>
+              <small>{{ challenge.stamps.length }}/5 stamps</small>
+            </div>
+            <div v-else-if="challenge.type === 'memory'" class="memory-grid">
+              <button v-for="(card, index) in challenge.cards" :key="index" type="button" :class="{ revealed: challenge.revealed.includes(index), matched: challenge.matched.includes(index) }" @click="flipMemoryCard(index)">{{ challenge.revealed.includes(index) || challenge.matched.includes(index) ? card : '?' }}</button>
+              <small>Pairs found: {{ challenge.matched.length / 2 }}/3</small>
+            </div>
+            <div v-else-if="challenge.type === 'wheel'" class="challenge-input wheel-game">
+              <div :class="['wheel', { spinning: challenge.spinning }]">{{ challenge.character }}</div>
+              <button class="challenge-submit" type="button" :disabled="challenge.spinning" @click="spinCharacter">Spin</button>
+            </div>
+            <div v-else-if="challenge.type === 'microwave'" class="challenge-input microwave-controls">
+              <label>Snack<select v-model="challenge.snack"><option>Pandesal</option><option>Popcorn</option><option>Leftover pizza</option></select></label>
+              <label>Timer<input v-model="challenge.timer" type="time"></label>
+              <label>Power <input v-model.number="challenge.power" type="range" min="1" max="10"> {{ challenge.power }}/10</label>
+              <button class="challenge-submit" type="button" @click="submitChallenge('microwave')">Start</button>
+            </div>
+            <div v-else-if="challenge.type === 'google'" class="challenge-choices">
               <label v-for="choice in challenge.choices" :key="choice" class="challenge-check">
                 <input v-model="challenge.answer" type="checkbox" :value="choice"> {{ choice }}
               </label>
@@ -97,7 +168,6 @@
               <strong>Challenge #{{ challenge.level }}</strong>
               <code>while (loggedOut) { solveAnotherChallenge() }</code>
               <button class="challenge-submit" type="button" @click="challenge.level++">Submit solution &amp; receive another</button>
-              <small>This one is intentionally never-ending.</small>
             </div>
             <div v-else-if="challenge.type === 'settings'" class="ios-settings">
               <button v-for="item in challenge.choices" :key="item" type="button" @click="submitChallenge(item)">{{ item }} <span>›</span></button>
@@ -195,7 +265,7 @@ Object.assign(challengeDefinitions, {
   pandesal: { type: 'range', prompt: '🍞 How many fictional breadcrumbs are in this malunggay pandesal? One question every 48 hours.', min: 0, max: 999, answer: 100, valid: -1, cooldown: true },
   settings: { type: 'settings', prompt: 'Scroll the endless iOS-style settings list and find Enable Normal Login.', choices: [...Array(60)].map((_, i) => i === 47 ? 'Enable Normal Login' : ['Wi‑Fi', 'Bluetooth', 'Battery', 'Privacy', 'Wallpaper', 'General'][i % 6] + ' ' + (i + 1)), valid: ['Enable Normal Login'] },
   id: { type: 'form', prompt: 'Demo ID verification supports all countries and documents — but only fictional entries.', placeholder: 'Fictional document number', button: 'Verify demo ID' },
-  age: { type: 'range', prompt: 'Enter a fictional age. Under 18 triggers a theatrical, non-destructive self-destruct.', min: 0, max: 100, answer: 18, valid: 19, age: true },
+  age: { type: 'range', prompt: 'Enter a fictional age.', min: 0, max: 100, answer: 18, valid: 19, age: true },
   pdf: { type: 'file', prompt: 'Upload a harmless sample PDF for a fake scanner.', accept: '.pdf,application/pdf', notice: 'The file stays in your browser; sensitive documents are not appropriate here.' },
   fingerprint: { type: 'whack', prompt: 'Whack the cartoon fingerprint eight times.', hits: 0, target: 5 },
   onlyfans: { type: 'nothing', prompt: '…' },
@@ -222,8 +292,34 @@ Object.assign(challengeDefinitions, {
   microwave: { type: 'choice', prompt: 'Set an imaginary snack, timer, and power level.', choices: ['Popcorn at 900W', 'Pandesal at 600W', 'Please rotate login', 'All of the above'], valid: ['Please rotate login'] }
 })
 
+Object.assign(challengeDefinitions, {
+  github: { type: 'endless', prompt: 'Solve the JavaScript prompt below.', level: 1 },
+  linkedin: { type: 'profile', prompt: 'Complete your professional profile.', step: 1, name: '', headline: '', summary: '' },
+  x: { type: 'text', prompt: 'Write a post that reaches the displayed limit.', maxLength: 280, answer: '', shrinking: true },
+  riotgames: { type: 'targets', prompt: 'Clear the practice range.', targets: [], score: 0 },
+  spotify: { type: 'spotify', prompt: 'Identify the track from the clues.', clues: ['It has a title.', 'Someone probably performed it.', 'It may have appeared on a playlist once.'], clue: 0, answer: '' },
+  applemusic: { type: 'album-order', prompt: 'Put the album cards in release order.', albums: [{ title: 'Cassette Dreams', year: '1982' }, { title: 'Compact Disc', year: '1998' }, { title: 'Released Yesterday', year: 'Yesterday' }] },
+  paypal: { type: 'checkout', prompt: 'Choose how to pay for this demo order.', methods: ['Demo card', 'Demo wallet', 'Imaginary cash'], total: 149, answer: '' },
+  jollibee: { type: 'cart', prompt: 'Build your order.', menu: [{ name: 'Chickenjoy', price: 99 }, { name: 'Jolly Spaghetti', price: 75 }, { name: 'Burger Steak', price: 89 }, { name: 'Peach Mango Pie', price: 45 }], cart: [] },
+  kfc: { type: 'quiz', prompt: 'Pass the kitchen knowledge check.', question: 0, questions: [{ prompt: 'Which item belongs on a spice rack?', answers: ['Salt', 'A joystick', 'A stapler'] }, { prompt: 'How many secret spices are in this demo?', answers: ['11', 'A million', 'Banana'] }, { prompt: 'Final check: choose the sensible answer.', answers: ['Taste carefully', 'Eat the login form', 'Ask the Wi-Fi'] }] },
+  starbucks: { type: 'coffee', prompt: 'Make the requested drink.', milk: 50, ice: 2, shots: 1 },
+  ikea: { type: 'puzzle', prompt: 'Place all nine pieces into the assembly grid.', pieces: ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I'], placed: [] },
+  barangay: { type: 'offices', prompt: 'Collect the required stamps.', offices: ['Captain', 'Records', 'Treasurer', 'Health Desk', 'Wrong Window'], stamps: [] },
+  nso: { type: 'wheel', prompt: 'Create the person named on this document.', character: '???', spinning: false },
+  utang: { type: 'memory', prompt: 'Match the favors to the people who offered them.', cards: ['Casserole', 'Fare', 'Reviewer', 'Fare', 'Casserole', 'Reviewer'], revealed: [], matched: [] },
+  microwave: { type: 'microwave', prompt: 'Set the controls.', snack: 'Pandesal', timer: '00:30', power: 7 },
+  cosmarket: { type: 'choice', prompt: 'Choose an item to inspect.', choices: ['₱99 wig', '₱100 cape', '₱101 armor', 'Nothing today'], valid: ['Nothing today'] },
+  groomer: { type: 'choice', prompt: 'Choose a pet-grooming service.', choices: ['Paw trim', 'Tail brushing', 'Mud wash', 'Owner consultation'], valid: ['Paw trim'] },
+  settings: { type: 'settings', prompt: 'Find the setting you need.', choices: [...Array(60)].map((_, i) => i === 47 ? 'Enable Normal Login' : ['Wi‑Fi', 'Bluetooth', 'Battery', 'Privacy', 'Wallpaper', 'General'][i % 6] + ' ' + (i + 1)), valid: ['Enable Normal Login'] }
+})
+
 const activePersona = computed(() => {
   return store.currentUser || DUMMY_USERS[0]
+})
+
+const cartTotal = computed(() => {
+  if (challenge.value.type !== 'cart') return 0
+  return challenge.value.menu.filter(item => challenge.value.cart.includes(item.name)).reduce((sum, item) => sum + item.price, 0)
 })
 
 const loginOptions = [
@@ -291,7 +387,7 @@ const triggerLoginOption = (option) => {
   window.clearInterval(googleShuffleTimer)
   activeModal.value = option
   const definition = challengeDefinitions[option.id]
-  challenge.value = { ...definition, answer: Array.isArray(definition.answer) ? [] : (definition.answer ?? '') }
+  challenge.value = { ...JSON.parse(JSON.stringify(definition)), answer: Array.isArray(definition.answer) ? [] : (definition.answer ?? '') }
   if (option.id === 'pandesal' && store.getCooldown(activePersona.value.id, 'pandesal')) {
     modalResult.value = { outcome: 'failure', message: 'The bakery is cooling down. You can ask another breadcrumb question after 48 hours.' }
     modalState.value = 'result'
@@ -315,12 +411,42 @@ const triggerLoginOption = (option) => {
       challenge.value.choices = [...choices.slice(1), choices[0]]
     }, 1000)
   }
+  if (option.id === 'riotgames') challenge.value.targets = makePracticeTargets()
 }
 
 const submitChallenge = (answer) => {
   const user = activePersona.value
   const definition = challengeDefinitions[activeModal.value.id]
   if (definition.type === 'nothing') return
+  if (definition.type === 'profile') {
+    setModalResult(false, 'Your resume has been submitted. HR will call about this login.')
+    return
+  }
+  if (definition.type === 'spotify') {
+    setModalResult(false, 'The answer was “Untitled Audio File.” The clues were not enough, by design.')
+    return
+  }
+  if (definition.type === 'album-order') {
+    setModalResult(false, 'The album that says it released yesterday refuses to accept chronology.')
+    return
+  }
+  if (definition.type === 'checkout') {
+    setModalResult(false, `${answer} is emotionally unavailable.`)
+    return
+  }
+  if (definition.type === 'cart') {
+    setModalResult(false, 'Your order left the kitchen before the login token did.')
+    return
+  }
+  if (definition.type === 'coffee') {
+    const madeIt = challenge.value.milk === 73 && challenge.value.ice === 3 && challenge.value.shots === 2
+    setModalResult(madeIt, madeIt ? 'The drink is correct. The cup has accepted your login.' : 'The barista compared the recipe and quietly shook their head.')
+    return
+  }
+  if (definition.type === 'microwave') {
+    setModalResult(false, 'Please rotate login.')
+    return
+  }
   if (definition.shrinking) {
     definition.maxLength -= 1
     challenge.value.maxLength = definition.maxLength
@@ -331,9 +457,7 @@ const submitChallenge = (answer) => {
   if (activeModal.value.id === 'pandesal') store.addCooldown(user.id, 'pandesal', 172800)
   if (definition.age) {
     const passed = Number(answer) > 18
-    modalResult.value = { outcome: passed ? 'success' : 'failure', message: passed ? 'Happy birthday! Your fictional adulthood has been acknowledged.' : 'This account self-destructed theatrically. No real account was affected.' }
-    store.addLog(user.id, 'login', activeModal.value.id, passed ? 'success' : 'failure', modalResult.value.message)
-    modalState.value = 'result'
+    setModalResult(passed, passed ? 'Happy birthday!' : 'This fictional account self-destructed theatrically. No real account was affected.')
     return
   }
   const passed = definition.type === 'text'
@@ -360,6 +484,75 @@ const submitChallenge = (answer) => {
   }
   store.addLog(user.id, 'login', activeModal.value.id, passed ? 'success' : 'failure', modalResult.value.message)
   modalState.value = 'result'
+}
+
+const setModalResult = (passed, message) => {
+  modalResult.value = { outcome: passed ? 'success' : 'failure', message }
+  store.addLog(activePersona.value.id, 'login', activeModal.value.id, passed ? 'success' : 'failure', message)
+  modalState.value = 'result'
+}
+
+const makePracticeTargets = () => Array.from({ length: 5 }, (_, id) => ({ id, x: 12 + Math.random() * 72, y: 12 + Math.random() * 66 }))
+
+const hitPracticeTarget = (id) => {
+  challenge.value.targets = challenge.value.targets.filter(target => target.id !== id)
+  challenge.value.score += 1
+  if (!challenge.value.targets.length) setModalResult(true, 'Practice complete. Your authentication aim is suspiciously good.')
+}
+
+const moveAlbum = (index) => {
+  const album = challenge.value.albums.splice(index, 1)[0]
+  challenge.value.albums.splice(Math.min(index + 1, challenge.value.albums.length), 0, album)
+}
+
+const toggleCart = (item) => {
+  challenge.value.cart = challenge.value.cart.includes(item) ? challenge.value.cart.filter(name => name !== item) : [...challenge.value.cart, item]
+}
+
+const answerQuiz = (answer) => {
+  if (challenge.value.question < challenge.value.questions.length - 1) {
+    challenge.value.question += 1
+    return
+  }
+  setModalResult(false, 'You completed the quiz. The secret recipe was still not a valid login method.')
+}
+
+const placePuzzlePiece = (piece) => {
+  if (!challenge.value.placed.includes(piece)) challenge.value.placed.push(piece)
+  if (challenge.value.placed.length === challenge.value.pieces.length) setModalResult(true, 'Perfect assembly achieved. The manual was upside down.')
+}
+
+const visitOffice = (office) => {
+  const required = ['Wrong Window', 'Health Desk', 'Treasurer', 'Records', 'Captain']
+  if (office !== required[challenge.value.stamps.length]) {
+    challenge.value.stamps = []
+    return
+  }
+  challenge.value.stamps.push(office)
+  if (challenge.value.stamps.length === required.length) setModalResult(false, 'All stamps collected. The clerk says that was the wrong order.')
+}
+
+const flipMemoryCard = (index) => {
+  if (challenge.value.revealed.includes(index) || challenge.value.matched.includes(index) || challenge.value.revealed.length === 2) return
+  challenge.value.revealed.push(index)
+  if (challenge.value.revealed.length !== 2) return
+  const [first, second] = challenge.value.revealed
+  if (challenge.value.cards[first] === challenge.value.cards[second]) {
+    challenge.value.matched.push(first, second)
+    challenge.value.revealed = []
+    if (challenge.value.matched.length === challenge.value.cards.length) setModalResult(false, 'Every favor is matched, yet everyone remembers it differently.')
+  } else {
+    optionTimer = window.setTimeout(() => { challenge.value.revealed = [] }, 650)
+  }
+}
+
+const spinCharacter = () => {
+  challenge.value.spinning = true
+  const characters = ['Captain Breadcrumb', 'Marites the Time Traveler', 'Sir Wi‑Fi', 'Doctor Pancit']
+  optionTimer = window.setTimeout(() => {
+    challenge.value.character = characters[Math.floor(Math.random() * characters.length)]
+    challenge.value.spinning = false
+  }, 700)
 }
 
 const closeModal = () => {
@@ -672,6 +865,180 @@ body.dark .close-modal-btn {
   accent-color: #1877f2;
 }
 
+.profile-form .resume-preview {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid #ccd0d5;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.profile-form .resume-preview h4,
+.profile-form .resume-preview p {
+  margin: 0;
+}
+
+.target-board {
+  position: relative;
+  height: 230px;
+  overflow: hidden;
+  border: 2px dashed #8db5e9;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #eaf4ff, #f9fcff);
+}
+
+.target-board > span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-weight: bold;
+}
+
+.target-board > small {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+}
+
+.practice-target {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  background: #e34444;
+  transform: translate(-50%, -50%);
+}
+
+.album-card {
+  display: flex;
+  justify-content: space-between;
+  background: #455a77;
+}
+
+.checkout,
+.food-menu,
+.office-map,
+.wheel-game {
+  display: grid;
+  gap: 9px;
+}
+
+.checkout-total,
+.payment-method {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccd0d5;
+  border-radius: 7px;
+}
+
+.payment-method {
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.payment-method input {
+  width: auto;
+}
+
+.food-menu {
+  grid-template-columns: 1fr 1fr;
+}
+
+.food-menu button {
+  display: flex;
+  justify-content: space-between;
+  background: #d4202b;
+}
+
+.food-menu button.selected {
+  outline: 3px solid #ffc400;
+}
+
+.cart-total {
+  font-weight: bold;
+}
+
+.sliders label,
+.microwave-controls label {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 8px;
+  text-align: left;
+}
+
+.microwave-controls label {
+  grid-template-columns: 80px 1fr;
+}
+
+.puzzle-grid,
+.memory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.puzzle-grid button,
+.memory-grid button {
+  min-height: 60px;
+  background: #f2cf42;
+  color: #24384c;
+  font-size: 18px;
+}
+
+.puzzle-grid button.placed,
+.memory-grid button.matched {
+  background: #58a55c;
+  color: white;
+}
+
+.memory-grid button.revealed {
+  background: #7289da;
+  color: white;
+}
+
+.puzzle-grid small,
+.memory-grid small,
+.office-map small {
+  grid-column: 1 / -1;
+}
+
+.office-map {
+  grid-template-columns: 1fr 1fr;
+}
+
+.office-map button {
+  background: #657c59;
+}
+
+.office-map button.stamped {
+  background: #2d8a55;
+}
+
+.wheel {
+  display: grid;
+  place-items: center;
+  min-height: 120px;
+  padding: 15px;
+  border: 5px dashed #f2b630;
+  border-radius: 50%;
+  font-weight: bold;
+  text-align: center;
+}
+
+.wheel.spinning {
+  animation: wobble .15s linear infinite;
+}
+
+@keyframes wobble {
+  50% { transform: rotate(8deg); }
+}
+
 .challenge-input small {
   color: #65676b;
 }
@@ -680,6 +1047,21 @@ body.dark .challenge-input textarea {
   background: #18191a;
   border-color: #4b4d4f;
   color: #f1f1f1;
+}
+
+body.dark .profile-form .resume-preview,
+body.dark .checkout-total,
+body.dark .payment-method {
+  border-color: #4b4d4f;
+}
+
+body.dark .target-board {
+  background: #182633;
+  border-color: #396e9f;
+}
+
+body.dark .puzzle-grid button {
+  color: #24384c;
 }
 
 body.dark .challenge-input small {

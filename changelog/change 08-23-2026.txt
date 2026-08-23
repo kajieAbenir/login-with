@@ -1,0 +1,64 @@
+changes 0.0.3 - aug. 23 2026 (vue migration branch)
+
+- implemented the interactive parody authentication system
+	- added 44 fictional login and password-reset challenge options
+	- added challenge-specific success and failure messages
+	- added activity logging for login, registration, reset, success, failure, and pending events
+	- added successful-challenge redirects to the dashboard or login page
+
+- added interactive login-option mechanics
+	- Google product selection with moving decoy options
+	- never-ending JavaScript challenge for GitHub
+	- fictional resume form and preview flow for LinkedIn
+	- shrinking 280-character posting challenge for X
+	- harmless target practice for Riot Games
+	- impossible cheapest-and-flawless item selection for Cos Market PH
+	- fictional music clues and album timeline challenges
+	- emotionally unavailable payment methods for PayPal
+	- fake card validation using test values only
+	- restaurant order, QR scanning, spice quiz, recipe slider, and bakery challenges
+	- endless settings list with a hidden normal-login setting
+	- fictional ID, age, PDF, and fingerprint demonstrations
+	- WinRAR trial dialog, IKEA assembly, dial-up timeout, and broadband loading screens
+	- translation, barangay office, transcript prerequisite, and fictional birth-certificate challenges
+	- moral-debt, load-balance, Piso WiFi, seen-zone, admin-approval, and parcel-tracking jokes
+	- safety-points, psychology, Jackie Chan, and microwave challenges
+
+- added password-reset challenge mechanics
+	- email verification against local dummy accounts before reset options appear
+	- gacha reset system with a 0.5% success chance and 180-pull pity protection
+	- fictional password updates for successful gacha, microwave, roulette, and slot outcomes
+	- Russian roulette reset with a fictional account-deletion outcome
+	- slot-machine reset, Flappy Bird reset, manifestation hold, Ouija, hex-code, and Morse-code options
+	- queue-based admin approval, parcel delivery failures, and fake payment reset flows
+	- target-account banner showing the selected dummy persona and pity count
+
+- added dummy account and persona system
+	- added 10 pre-populated fictional user accounts with themed names, passwords, backstories, and Ligtas Points
+	- added account selector with auto-filled demo passwords on the home page
+	- added persona previews showing avatar, signup reason, and karma score
+	- added localStorage persistence for users, activity logs, and challenge cooldowns
+	- added account lookup, persona selection, logout, and dummy-account reset helpers
+
+- added normal-login joke flow
+	- normal credential login now redirects to a dedicated joke page instead of the dashboard
+	- added laughing-cat meme presentation and an authentication-victim dossier
+	- added links back to the parody login options, password reset, dashboard, and external Rickroll
+
+- improved responsive layout and navigation
+	- added the `/trolled` route and new `JokeLogin` page
+	- added dark-mode support to the new views and challenge controls
+	- fixed horizontal overflow by replacing viewport-width containers with full-width layouts
+	- added responsive spacing, modal actions, challenge controls, file inputs, settings lists, and whack-a-mole styling
+	- added dashboard and login redirect buttons after successful challenge outcomes
+
+- security and scope notes
+	- all authentication, payment, ID, document, biometric, and file interactions are fictional demonstrations
+	- card values are explicitly test-only, uploaded files remain local to the browser, and no real credentials are sent anywhere
+
+- commit reference
+	- 779e144: feat: implement interactive login/reset challenges and dummy account system
+
+- notes from developer
+  - 90% on the recent push (including this one) are AI-assisted. I'll check this slop after this commit. 
+  - so far, I have tested the "Reset via Gacha" and IT DID NOT WORK WELL WITH ME 😭😭 I GOT TOO UNLUCKY WITH MY OWN CREATION
